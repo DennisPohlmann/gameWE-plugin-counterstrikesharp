@@ -34,7 +34,7 @@ Current version: see `VERSION` and [CHANGELOG.md](CHANGELOG.md).
 
 ## Requirements
 
-- a Counter-Strike 2 dedicated server with
+- a Counter-Strike 2 dedicated server on Linux or Windows with
   [Metamod:Source 2.0](https://www.sourcemm.net/downloads.php?branch=dev) and
   [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
   **v378 or newer** (the "with runtime" build, or the .NET runtime it needs)
@@ -43,8 +43,9 @@ Current version: see `VERSION` and [CHANGELOG.md](CHANGELOG.md).
 
 ## Quick start
 
-1. Extract `gamewe-counterstrikesharp-<version>.tar.gz` (or `.zip`) from the
-   releases into the `game/csgo` folder, the folder that contains `addons/`:
+1. Extract `gamewe-counterstrikesharp-<version>.tar.gz` (Linux) or `.zip`
+   (Windows) from the releases into the `game/csgo` folder, the folder that
+   contains `addons/` (on Windows e.g. with `Expand-Archive`):
 
    ```bash
    tar -xzf gamewe-counterstrikesharp-0.1.0.tar.gz -C /path/to/cs2/game/csgo

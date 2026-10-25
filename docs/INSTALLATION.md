@@ -27,20 +27,46 @@ collector's token for this server.
 - [Metamod:Source 2.0](https://www.sourcemm.net/downloads.php?branch=dev) and
   [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
   **v378 or newer** (the release is built against `CounterStrikeSharp.API`
-  1.0.378, .NET 10). Use the "with runtime" build of CounterStrikeSharp
-  unless the .NET runtime is installed otherwise.
+  1.0.378, .NET 10), in the Linux or Windows build that matches the
+  server. Use the "with runtime" build of CounterStrikeSharp unless the
+  .NET runtime is installed otherwise.
 - A gameWE collector with CS2 support that has the server in
   `hlstats_Servers` with its RCON password ([pairing](#pairing-with-the-collector)).
 
 ## Install
 
-1. Download `gamewe-counterstrikesharp-<version>.tar.gz` (or `.zip`) and its
-   `.sha256` from the releases and check it:
-   `sha256sum -c gamewe-counterstrikesharp-<version>.sha256`.
-2. Extract it into `game/csgo`, the folder that contains `addons/`:
+The same package works on Linux and Windows servers: `GameWE.dll` is plain
+.NET code. Take the `.tar.gz` on Linux and the `.zip` on Windows; both have
+the same content.
+
+1. Download the package and its `.sha256` from the releases and check it.
+
+   Linux:
+
+   ```bash
+   sha256sum -c gamewe-counterstrikesharp-<version>.sha256
+   ```
+
+   Windows (PowerShell): compare the output with the `.zip` line of the
+   `.sha256` file:
+
+   ```powershell
+   (Get-FileHash gamewe-counterstrikesharp-<version>.zip -Algorithm SHA256).Hash.ToLower()
+   ```
+
+2. Extract it into `game/csgo` (Windows: `game\csgo`), the folder that
+   contains `addons/`.
+
+   Linux:
 
    ```bash
    tar -xzf gamewe-counterstrikesharp-0.1.0.tar.gz -C /path/to/cs2/game/csgo
+   ```
+
+   Windows (PowerShell):
+
+   ```powershell
+   Expand-Archive gamewe-counterstrikesharp-0.1.0.zip -DestinationPath C:\path\to\cs2\game\csgo -Force
    ```
 
    It contains:
@@ -56,7 +82,9 @@ collector's token for this server.
 
 ## Game server setup
 
-CS2 accepts RCON only with the launch option `-usercon`. In `server.cfg`:
+CS2 accepts RCON only with the launch option `-usercon`, on Linux
+(`./cs2.sh -dedicated -usercon ...`) as on Windows
+(`cs2.exe -dedicated -usercon ...`). In `server.cfg`:
 
 ```
 log on
