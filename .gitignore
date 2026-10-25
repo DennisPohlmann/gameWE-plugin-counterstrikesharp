@@ -1,0 +1,17 @@
+# build output
+/build/
+/dist/
+bin/
+obj/
+*.tar.gz
+*.zip
+*.sha256
+TestResults/
+
+# editors / OS
+.idea/
+.vscode/
+.vs/
+*.user
+*.swp
+.DS_Store
