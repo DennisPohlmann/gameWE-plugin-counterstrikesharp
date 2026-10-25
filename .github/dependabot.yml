@@ -1,0 +1,39 @@
+# .github/dependabot.yml - gameWE plugin-counterstrikesharp
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    cooldown:
+      default-days: 5
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # CounterStrikeSharp.API and the test packages. A new CounterStrikeSharp
+  # API can change the game data: check the plugin on a CS2 server before
+  # merging that one.
+  - package-ecosystem: nuget
+    directories:
+      - /src/GameWE
+      - /tests/GameWE.Tests
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    cooldown:
+      default-days: 5
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      tests:
+        patterns: ["xunit*", "Microsoft.NET.Test.Sdk"]

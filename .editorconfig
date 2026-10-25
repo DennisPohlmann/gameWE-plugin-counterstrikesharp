@@ -1,0 +1,24 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+
+# Analyzer rules of AnalysisLevel latest-recommended that do not fit a game
+# plugin; everything else is an error (TreatWarningsAsErrors).
+# plain counter classes with public fields
+dotnet_diagnostic.CA1051.severity = none
+# the plugin logs rarely; LoggerMessage delegates are not worth it
+dotnet_diagnostic.CA1848.severity = none
+# CommandText.Int reads an integer argument
+dotnet_diagnostic.CA1720.severity = none
+
+[*.{json,yml,yaml,csproj,md}]
+indent_style = space
+indent_size = 2
