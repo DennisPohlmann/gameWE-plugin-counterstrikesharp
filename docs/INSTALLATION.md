@@ -60,13 +60,13 @@ the same content.
    Linux:
 
    ```bash
-   tar -xzf gamewe-counterstrikesharp-0.1.0.tar.gz -C /path/to/cs2/game/csgo
+   tar -xzf gamewe-counterstrikesharp-<version>.tar.gz -C /path/to/cs2/game/csgo
    ```
 
    Windows (PowerShell):
 
    ```powershell
-   Expand-Archive gamewe-counterstrikesharp-0.1.0.zip -DestinationPath C:\path\to\cs2\game\csgo -Force
+   Expand-Archive gamewe-counterstrikesharp-<version>.zip -DestinationPath C:\path\to\cs2\game\csgo -Force
    ```
 
    It contains:

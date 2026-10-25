@@ -15,7 +15,7 @@ make package    # dist/gamewe-counterstrikesharp-<version>.tar.gz, .zip and .sha
 ```
 
 If `dotnet` is not in `PATH`, use `make DOTNET=/path/to/dotnet`. The version
-comes from the git tag (`v1.2.3`) or the `VERSION` file. Warnings, including
+comes from the git tag (`v<version>`) or the `VERSION` file. Warnings, including
 the .NET analyzers (`AnalysisLevel latest-recommended`), are treated as
 errors.
 
@@ -63,13 +63,13 @@ the next version:
 
 | Commit | Release |
 |---|---|
-| `feat: ...` | minor (0.1.0 → 0.2.0) |
-| `fix: ...` (also `fix(security): ...`), `perf: ...` | patch (0.1.0 → 0.1.1) |
-| `feat!: ...`, `fix!: ...` or a `BREAKING CHANGE:` footer | major (0.1.0 → 1.0.0) |
+| `feat: ...` | minor (`X.Y.Z` → `X.(Y+1).0`) |
+| `fix: ...` (also `fix(security): ...`), `perf: ...` | patch (`X.Y.Z` → `X.Y.(Z+1)`) |
+| `feat!: ...`, `fix!: ...` or a `BREAKING CHANGE:` footer | major (`X.Y.Z` → `(X+1).0.0`) |
 | `docs`, `chore`, `ci`, `build`, `test`, `refactor`, `style` | no release |
 
 For a release it writes `VERSION` and `CHANGELOG.md`, commits them as
-`chore(release): vX.Y.Z [skip ci]`, tags `vX.Y.Z` and creates the GitHub
+`chore(release): v<version> [skip ci]`, tags `v<version>` and creates the GitHub
 release. The workflow then builds that tag and uploads the packages
 (`.tar.gz`, `.zip`, `.sha256`) to the release. The project file reads
 `VERSION`, so the plugin's `ModuleVersion` follows. Never edit `VERSION` or

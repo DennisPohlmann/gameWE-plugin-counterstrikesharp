@@ -48,7 +48,7 @@ Current version: see `VERSION` and [CHANGELOG.md](CHANGELOG.md).
    contains `addons/` (on Windows e.g. with `Expand-Archive`):
 
    ```bash
-   tar -xzf gamewe-counterstrikesharp-0.1.0.tar.gz -C /path/to/cs2/game/csgo
+   tar -xzf gamewe-counterstrikesharp-<version>.tar.gz -C /path/to/cs2/game/csgo
    ```
 
 2. Start the server with RCON enabled (`-usercon`) and add to `server.cfg`:

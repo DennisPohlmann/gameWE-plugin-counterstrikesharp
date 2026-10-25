@@ -40,7 +40,7 @@ Player references are written as CS2 writes them:
 and control characters are removed, so a name cannot fake an event.
 
 ```
-gameWE Plugin 0.1.0 (CounterStrikeSharp)
+gameWE Plugin <version> (CounterStrikeSharp)
 "Name<2><[U:1:123]><CT>" triggered "weaponstats" (weapon "ak47") (shots "14") (hits "6") (kills "1") (headshots "1") (tks "0") (damage "412") (deaths "0")
 "Name<2><[U:1:123]><CT>" triggered "headshot"
 "Name<2><[U:1:123]><CT>" triggered "domination" against "Other<3><[U:1:456]><TERRORIST>"
