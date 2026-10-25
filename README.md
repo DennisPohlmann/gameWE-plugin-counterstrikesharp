@@ -106,5 +106,5 @@ GPL version 2 or later. The translations come from the gameME plugin.
 
 It is built against [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
 (`CounterStrikeSharp.API`, MIT license), which is not included in the
-package. The tests use [xUnit](https://xunit.net/) (Apache-2.0) and the
+package. The tests use [xUnit v3](https://xunit.net/) (Apache-2.0) and the
 Microsoft .NET Test SDK (MIT); they are not included either.

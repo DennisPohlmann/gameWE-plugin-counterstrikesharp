@@ -33,7 +33,9 @@ brings its own API at runtime.
 
 ## Tests
 
-`make test` runs the xUnit tests. New logic in `Core/` gets a test; a new
+`make test` runs the xUnit v3 tests with `dotnet test` on Microsoft.Testing.Platform
+(`global.json` turns it on; the .NET 10 SDK no longer runs xUnit v3 through VSTest).
+`xunit.runner.visualstudio` stays in the project for IDEs. New logic in `Core/` gets a test; a new
 phrase goes into all nine files in `lang/` (a test checks that every
 language has every phrase with the same placeholders).
 

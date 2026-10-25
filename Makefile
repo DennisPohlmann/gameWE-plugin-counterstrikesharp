@@ -33,7 +33,7 @@ build:
 	install -m 0644 lang/*.json $(PLUGIN)/lang/
 
 test:
-	$(DOTNET) test tests/GameWE.Tests/GameWE.Tests.csproj -c Release
+	$(DOTNET) test --project tests/GameWE.Tests/GameWE.Tests.csproj -c Release
 
 package: build
 	install -m 0644 README.md CHANGELOG.md LICENSE $(STAGE)/
