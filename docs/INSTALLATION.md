@@ -39,16 +39,18 @@ The same package works on Linux and Windows servers: `GameWE.dll` is plain
 .NET code. Take the `.tar.gz` on Linux and the `.zip` on Windows; both have
 the same content.
 
-1. Download the package and its `.sha256` from the releases and check it.
+1. Download the package and its own `.sha256` file
+   (`<package>.tar.gz.sha256` or `<package>.zip.sha256`) from the releases
+   and check it.
 
    Linux:
 
    ```bash
-   sha256sum -c gamewe-counterstrikesharp-<version>.sha256
+   sha256sum -c gamewe-counterstrikesharp-<version>.tar.gz.sha256
    ```
 
-   Windows (PowerShell): compare the output with the `.zip` line of the
-   `.sha256` file:
+   Windows (PowerShell): compare the output with the first word of
+   `gamewe-counterstrikesharp-<version>.zip.sha256`:
 
    ```powershell
    (Get-FileHash gamewe-counterstrikesharp-<version>.zip -Algorithm SHA256).Hash.ToLower()

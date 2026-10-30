@@ -11,7 +11,7 @@ You need the [.NET 10 SDK](https://dotnet.microsoft.com/download).
 ```bash
 make build      # build/stage/addons/counterstrikesharp/plugins/GameWE/GameWE.dll
 make test       # xUnit tests (tests/GameWE.Tests)
-make package    # dist/gamewe-counterstrikesharp-<version>.tar.gz, .zip and .sha256
+make package    # dist/gamewe-counterstrikesharp-<version>.tar.gz and .zip, each with its .sha256
 ```
 
 If `dotnet` is not in `PATH`, use `make DOTNET=/path/to/dotnet`. The version
@@ -71,6 +71,7 @@ the next version:
 For a release it writes `VERSION` and `CHANGELOG.md`, commits them as
 `chore(release): v<version> [skip ci]`, tags `v<version>` and creates the GitHub
 release. The workflow then builds that tag and uploads the packages
-(`.tar.gz`, `.zip`, `.sha256`) to the release. The project file reads
+(`.tar.gz`, `.zip`) and their own `.tar.gz.sha256` and `.zip.sha256` to the
+release. The project file reads
 `VERSION`, so the plugin's `ModuleVersion` follows. Never edit `VERSION` or
 `CHANGELOG.md` by hand.

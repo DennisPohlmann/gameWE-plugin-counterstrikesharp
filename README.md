@@ -91,7 +91,7 @@ Every step in detail: [docs/INSTALLATION.md](docs/INSTALLATION.md).
 ```bash
 make build      # build/stage/addons/counterstrikesharp/plugins/GameWE/GameWE.dll
 make test       # xUnit tests
-make package    # dist/gamewe-counterstrikesharp-<version>.tar.gz, .zip and .sha256
+make package    # dist/gamewe-counterstrikesharp-<version>.tar.gz and .zip, each with its .sha256
 ```
 
 Requirements and the release process: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
