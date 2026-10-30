@@ -118,7 +118,14 @@ display settings only).
    game.
 2. The collector sends `logaddress_add_http` over RCON; from then on the
    engine and the plugin post their log lines to the collector.
-3. Check: after a map change the collector shows the line
+3. Check in the server console (or over RCON):
+
+   ```
+   css_plugins list           // "gameWE" with its version
+   gamewe_plugin_version      // gamewe_plugin_version = <version>
+   ```
+
+   After a map change the collector shows the line
    `gameWE Plugin <version> (CounterStrikeSharp)` for the server, and a
    player who types `/rank` gets the answer in chat.
 

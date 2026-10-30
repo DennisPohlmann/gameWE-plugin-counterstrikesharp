@@ -30,6 +30,8 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Translations;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Cvars;
+using CounterStrikeSharp.API.Modules.Cvars.Validators;
 using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Timers;
 using GameWE.Core;
@@ -42,6 +44,25 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
     public static readonly string PluginVersion =
         (typeof(GameWEPlugin).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.0.0")
         .Split('+')[0];
+
+    // gamewe_plugin_version, as in the SourceMod and AMX Mod X plugins.
+    // CounterStrikeSharp registers it as a server command on load: the server
+    // console and RCON read it, players get nothing (no FCVAR_REPLICATED) and
+    // any other value is rejected. The flags match the SourceMod ConVar; a
+    // FakeConVar does not hand them to the engine.
+    public static readonly FakeConVar<string> PluginVersionConVar = new(
+        "gamewe_plugin_version", "gameWE Plugin", PluginVersion,
+        ConVarFlags.FCVAR_NOTIFY | ConVarFlags.FCVAR_DONTRECORD, new ReadOnlyValue(PluginVersion));
+
+    /// <summary>Accepts only the value the ConVar was created with.</summary>
+    private sealed class ReadOnlyValue(string fixedValue) : IValidator<string>
+    {
+        public bool Validate(string value, out string? errorMessage)
+        {
+            errorMessage = string.Equals(value, fixedValue, StringComparison.Ordinal) ? null : "read only";
+            return errorMessage == null;
+        }
+    }
 
     public override string ModuleName => "gameWE";
     public override string ModuleVersion => PluginVersion;

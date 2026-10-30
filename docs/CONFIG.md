@@ -22,6 +22,12 @@ The names follow the ConVars of the gameWE SourceMod plugin
 | `MenuType` | `"center"` | - | `center`: menus in the center of the screen (W/S, E); `chat`: menus in chat (`!1` - `!9`). |
 | `ConfigVersion` | `1` | - | Written by CounterStrikeSharp; do not change. |
 
+The plugin also has the read-only ConVar `gamewe_plugin_version` (the
+plugin version, as in the SourceMod and AMX Mod X plugins). It answers in
+the server console and over RCON; players get nothing, and setting another
+value fails with `Error: read only`. `css_plugins list` shows the same
+version.
+
 Example:
 
 ```json

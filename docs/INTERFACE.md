@@ -101,6 +101,10 @@ message (backslash, n) is a line break. Lists of userids are limited to 64.
 Every command also exists with the `gameme_` prefix, so a collector or
 script written for gameME works unchanged.
 
+`gamewe_plugin_version` (no `gameme_` alias, as in the SourceMod plugin)
+answers `gamewe_plugin_version = <version>` in the server console and over
+RCON and cannot be changed; players get nothing.
+
 With `colored 1` the plugin replaces the tags `x01`, `x03`, `x04`, `x05`,
 `x07`, `x08` and the color names (`{green}`, ...) by CS2 chat colors.
 

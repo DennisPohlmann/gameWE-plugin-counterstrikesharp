@@ -61,7 +61,9 @@ Current version: see `VERSION` and [CHANGELOG.md](CHANGELOG.md).
    The collector adds its HTTP log address over RCON; the plugin uses the
    same address.
 
-3. Restart the server or change the map; `css_plugins list` shows `gameWE`.
+3. Restart the server or change the map; `css_plugins list` shows `gameWE`
+   with its version, and `gamewe_plugin_version` in the server console
+   prints the version too.
 
 Every step in detail: [docs/INSTALLATION.md](docs/INSTALLATION.md).
 
