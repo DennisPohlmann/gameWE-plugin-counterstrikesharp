@@ -1,6 +1,6 @@
 ---
 name: release-security-gate
-description: Full security pass over the gameWE CounterStrikeSharp plugin before release-relevant commits are pushed to main (semantic-release then bumps, tags and releases). Use whenever a release is being prepared; ends with a go/no-go report and never tags or pushes on its own.
+description: Full security pass over the gameWE CounterStrikeSharp plugin before a release is started (build workflow by hand with release=true; semantic-release then bumps, tags and releases). Use whenever a release is being prepared; ends with a go/no-go report and never tags, pushes or starts a release on its own.
 ---
 
 # Release security gate (gameWE CounterStrikeSharp plugin)
@@ -8,13 +8,15 @@ description: Full security pass over the gameWE CounterStrikeSharp plugin before
 Run all steps over the whole repository, not only the last diff. Report a
 table with the 20 points (ok / finding / n.a.) and a go/no-go.
 
-Releases are made by semantic-release in CI: every push to `main` that
-contains a `feat`, `fix` or breaking-change commit (Conventional Commits)
-bumps the version, writes `CHANGELOG.md`, tags `vX.Y.Z` and publishes the
-GitHub release. So this gate runs **before pushing release-relevant
-commits to `main`**, without asking first. Never tag by hand, never edit
-`VERSION` or `CHANGELOG.md` by hand, and do not push to `main` yourself:
-report the gate result and the version semantic-release will make
+Releases are made by semantic-release in CI, only when the build workflow is
+started by hand on `main` with `release` ticked (`gh workflow run build.yml
+--ref main -f release=true`). With a `feat`, `fix` or breaking-change commit
+(Conventional Commits) since the last tag it bumps the version, writes
+`CHANGELOG.md`, tags `vX.Y.Z` and publishes the GitHub release. Pushing to
+`main` does not release any more. So this gate runs **before every release
+run**, without asking first. Never tag by hand, never edit `VERSION` or
+`CHANGELOG.md` by hand, never start the release run and do not push to `main`
+yourself: report the gate result and the version semantic-release will make
 (`feat` → minor, `fix` → patch, `!`/`BREAKING CHANGE` → major), then ask
 Dennis for the go.
 
@@ -44,8 +46,10 @@ Dennis for the go.
    `git diff $(git describe --tags --abbrev=0) -- src`.
 7. **Threads:** nothing on the game thread blocks (HTTP, file writes);
    background tasks never touch CounterStrikeSharp objects.
-8. **Workflow:** `.github/workflows/build.yml` builds `main` and publishes
-   only via semantic-release (no tag trigger); permissions are minimal;
+8. **Workflow:** `.github/workflows/build.yml` builds every push and pull
+   request without publishing and publishes only via semantic-release in a
+   manual run (`workflow_dispatch` with `release`, guarded to `main`; no tag
+   trigger; draft until the packages are in it); permissions are minimal;
    action versions are current (Dependabot).
 9. **Test on a server** if one is available: hostile player name, chat
    flood of `/rank`, `gamewe_browse <id> javascript:...`, user id of a
@@ -57,4 +61,4 @@ Dennis for the go.
    release, the release commit messages and the `CHANGELOG.md` entry that
    semantic-release will write. Any `BLOCKED` item is a no-go.
 12. **Report:** go/no-go, the `security-privacy-audit` summary, findings with file:line and fix, the version semantic-release will make, then ask Dennis
-    for the go to push to `main`.
+    for the go to start the release run.

@@ -47,8 +47,9 @@ changes events, commands or menus, check the plugin on a CS2 test server:
 ## CI
 
 The GitHub workflow `.github/workflows/build.yml` runs `make test` and
-`make package` for every push to `main`, every pull request and when
-started by hand, and keeps the packages as a workflow artifact. Dependabot
+`make package` for every push (any branch), every pull request and when
+started by hand, and keeps the packages as a workflow artifact for 7 days;
+nothing is published without a release run. Dependabot
 (`.github/dependabot.yml`) opens weekly pull requests for GitHub Actions and
 the NuGet packages. A new `CounterStrikeSharp.API` needs a check on a CS2
 server before it is merged.
@@ -56,10 +57,14 @@ server before it is merged.
 ## Releases
 
 Releases are made by [semantic-release](https://semantic-release.gitbook.io/)
-(`.releaserc.json`) in the same workflow; nobody tags by hand. To make a
-release, push commits written as [Conventional Commits](https://www.conventionalcommits.org/)
-to `main`. semantic-release reads the commits since the last tag and decides
-the next version:
+(`.releaserc.json`) in the same workflow; nobody tags by hand. Pushing to
+`main` does not release: a release is started by hand on `main`, in GitHub
+under Actions → build → Run workflow with `release` ticked, or with
+`gh workflow run build.yml --ref main -f release=true`. Run the `release-security-gate` skill
+first (see `CLAUDE.md`). The run builds and tests everything again; only
+when that passed does semantic-release read the
+[Conventional Commits](https://www.conventionalcommits.org/) since the last
+tag and decide the next version:
 
 | Commit | Release |
 |---|---|
@@ -70,8 +75,10 @@ the next version:
 
 For a release it writes `VERSION` and `CHANGELOG.md`, commits them as
 `chore(release): v<version> [skip ci]`, tags `v<version>` and creates the GitHub
-release. The workflow then builds that tag and uploads the packages
+release as a draft. The workflow then builds that tag, uploads the packages
 (`.tar.gz`, `.zip`) and their own `.tar.gz.sha256` and `.zip.sha256` to the
-release. The project file reads
+release and makes it public. The release stays a draft until all files are
+in it, so it never shows up incomplete; if the job fails, re-run it. The
+project file reads
 `VERSION`, so the plugin's `ModuleVersion` follows. Never edit `VERSION` or
 `CHANGELOG.md` by hand.
