@@ -312,8 +312,9 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
         {
             return null;
         }
+        // The lookup goes by slot: a late command must not reach the next player in it.
         var player = Utilities.GetPlayerFromUserid(userId);
-        return player != null && player.IsValid && player.Connected == PlayerConnectedState.Connected ? player : null;
+        return player != null && player.IsValid && player.UserId == userId && player.Connected == PlayerConnectedState.Connected ? player : null;
     }
 
     private static CCSPlayerController? PlayerBySlot(int slot)

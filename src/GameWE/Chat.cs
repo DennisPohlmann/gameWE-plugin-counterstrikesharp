@@ -34,7 +34,7 @@ public sealed partial class GameWEPlugin
         {
             text = text.EndsWith('"') && text.Length >= 2 ? text.Substring(1, text.Length - 2) : text.Substring(1);
         }
-        if (text.Length == 0)
+        if (string.IsNullOrWhiteSpace(text))
         {
             return HookResult.Continue;
         }
