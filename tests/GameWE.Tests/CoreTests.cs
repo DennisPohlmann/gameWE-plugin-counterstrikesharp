@@ -390,6 +390,52 @@ public class DamageTrackerTests
     }
 }
 
+public class CenterPanelsTests
+{
+    [Fact]
+    public void ResendsUntilTheTimeIsUp()
+    {
+        var panels = new CenterPanels();
+        panels.Show(3, "text", 3);
+        Assert.Equal(new CenterPanels.Resend(3, "text", 2), Assert.Single(panels.Tick()));
+        Assert.Equal(new CenterPanels.Resend(3, "text", 1), Assert.Single(panels.Tick()));
+        Assert.Empty(panels.Tick());
+        Assert.Empty(panels.Tick());
+    }
+
+    [Fact]
+    public void ANewPanelReplacesTheOldOne()
+    {
+        var panels = new CenterPanels();
+        panels.Show(3, "old", 60);
+        panels.Show(3, "new", 2);
+        Assert.Equal(new CenterPanels.Resend(3, "new", 1), Assert.Single(panels.Tick()));
+        Assert.Empty(panels.Tick());
+    }
+
+    [Fact]
+    public void PlayersAreSeparateAndRemovable()
+    {
+        var panels = new CenterPanels();
+        panels.Show(1, "a", 5);
+        panels.Show(2, "b", 5);
+        panels.Remove(1);
+        Assert.Equal(2, Assert.Single(panels.Tick()).Slot);
+        panels.Clear();
+        Assert.Empty(panels.Tick());
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(DamageTracker.MaxSlots)]
+    public void IgnoresSlotsOutOfRange(int slot)
+    {
+        var panels = new CenterPanels();
+        panels.Show(slot, "text", 5);
+        Assert.Empty(panels.Tick());
+    }
+}
+
 public class LogSenderTests
 {
     private sealed class Recorder : HttpMessageHandler

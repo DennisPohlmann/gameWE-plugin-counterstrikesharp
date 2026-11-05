@@ -26,7 +26,7 @@ brings its own API at runtime.
 
 | Path | Content |
 |------|---------|
-| `src/GameWE/Core/` | logic without CounterStrikeSharp types: log line format, weapon stats, command text, chat colors, player settings, damage tracker, HTTP sender |
+| `src/GameWE/Core/` | logic without CounterStrikeSharp types: log line format, weapon stats, command text, chat colors, player settings, damage tracker, center panels, HTTP sender |
 | `src/GameWE/*.cs` | the plugin: load and unload, events, server commands, chat, menus, displays, config |
 | `lang/*.json` | translations, converted from the SourceMod plugin's phrases (`{0}`, `{1}` ... placeholders) |
 | `tests/GameWE.Tests/` | tests for `Core/` and the translations; they compile the `Core/` files directly |

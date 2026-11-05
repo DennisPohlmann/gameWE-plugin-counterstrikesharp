@@ -23,6 +23,7 @@ public sealed partial class GameWEPlugin
 
     // the collector's spectator text per spectated player slot
     private readonly Dictionary<int, string> _spectatorTexts = new();
+    private readonly CenterPanels _centerPanels = new();
     // open queries: query id -> (spectated slot, game time asked)
     private readonly Dictionary<int, (int Slot, float Asked)> _spectatorQueries = new();
     // spectated slot -> game time of the last request
@@ -68,6 +69,29 @@ public sealed partial class GameWEPlugin
 
     private static string NameOf(int slot) => PlayerBySlot(slot)?.PlayerName ?? "?";
 
+    /// <summary>A center HTML panel for the given time; the player's next one replaces it.</summary>
+    private void ShowCenterHtml(CCSPlayerController player, string html, int seconds)
+    {
+        player.PrintToCenterHtml(html, seconds);
+        _centerPanels.Show(player.Slot, html, seconds);
+    }
+
+    private void CenterPanelTick()
+    {
+        foreach (var panel in _centerPanels.Tick())
+        {
+            var player = PlayerBySlot(panel.Slot);
+            if (IsHuman(player) && player!.Connected == PlayerConnectedState.Connected)
+            {
+                player.PrintToCenterHtml(panel.Html, panel.SecondsLeft);
+            }
+            else
+            {
+                _centerPanels.Remove(panel.Slot);
+            }
+        }
+    }
+
     /// <summary>The summary of the round (attackers, victims, killer) as a center panel.</summary>
     private void ShowDamagePanel(CCSPlayerController player)
     {
@@ -104,7 +128,7 @@ public sealed partial class GameWEPlugin
         Section("DamagePanel_Wounded", summary.Wounded, l => $"{NameOf(l.Slot)} - {l.Damage} {dmg}, {Hits(l.Hits)}");
         Section("DamagePanel_Killer", summary.Killers,
             l => $"{NameOf(l.Slot)} - {l.HealthLeft} {T(player, "DamagePanel_Hp")}, {l.Damage} {dmg}, {l.Weapon}");
-        player.PrintToCenterHtml(html.ToString(), 10);
+        ShowCenterHtml(player, html.ToString(), 10);
     }
 
     /// <summary>The killer, the damage and the killer's health left, in chat.</summary>

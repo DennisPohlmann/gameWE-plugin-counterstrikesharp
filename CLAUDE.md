@@ -14,7 +14,7 @@ Layout:
 
 - `src/GameWE/Core/` - game independent logic (log line format, weapon
   stats, command text parsing, chat colors, player settings store, damage
-  tracker, HTTP log sender). No CounterStrikeSharp types here, so the tests
+  tracker, center panels, HTTP log sender). No CounterStrikeSharp types here, so the tests
   compile these files directly.
 - `src/GameWE/*.cs` - the plugin (`GameWEPlugin` partial class: events,
   server commands, chat, menus, displays), config `GameWEConfig`.

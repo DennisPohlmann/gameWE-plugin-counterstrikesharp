@@ -132,7 +132,7 @@ public sealed partial class GameWEPlugin
         var player = PlayerByUserId(CommandText.Int(Arg(info, 2), -1));
         if (IsHuman(player) && message.Length > 0)
         {
-            player!.PrintToCenterHtml(ChatText.Html(message), time);
+            ShowCenterHtml(player!, ChatText.Html(message), time);
         }
     }
 
@@ -189,7 +189,7 @@ public sealed partial class GameWEPlugin
         string html = ChatText.Html(message);
         foreach (var player in Humans(Arg(info, 1)))
         {
-            player.PrintToCenterHtml(html, 5);
+            ShowCenterHtml(player, html, 5);
         }
     }
 

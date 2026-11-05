@@ -140,6 +140,8 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
         RegisterListener<Listeners.OnMapStart>(_ => OnMapStart());
         AddTimer(5.0f, SaveSettingsIfDirty, TimerFlags.REPEAT);
         AddTimer(SpectatorInterval, SpectatorTick, TimerFlags.REPEAT);
+        // one timer for all panels: BasePlugin keeps every timer it made and kills it again on unload
+        AddTimer(1.0f, CenterPanelTick, TimerFlags.REPEAT);
 
         if (hotReload)
         {
@@ -184,6 +186,7 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
         _damage.ResetAll();
         _spectatorTexts.Clear();
         _spectatorQueries.Clear();
+        _centerPanels.Clear();
         LogStart();
     }
 
@@ -364,6 +367,7 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
         }
         _damage.Reset(player.Slot);
         _spectatorTexts.Remove(player.Slot);
+        _centerPanels.Remove(player.Slot);
     }
 
     /// <summary>
