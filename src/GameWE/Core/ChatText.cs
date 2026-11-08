@@ -107,6 +107,15 @@ public static class ChatText
         return builder.ToString();
     }
 
+    /// <summary>The text without any control character, color codes included.</summary>
+    public static string NoControl(string text) => string.Concat(text.Where(c => c >= ' '));
+
+    /// <summary>
+    /// Text for PrintToCenter (csay, hint): CS2 renders it as HTML, so it is
+    /// escaped like the center panels, without colors.
+    /// </summary>
+    public static string CenterText(string text) => WebUtility.HtmlEncode(StripColors(text)).Trim();
+
     /// <summary>The chat lines of a text with \n (backslash, n) line breaks.</summary>
     public static IEnumerable<string> Lines(string text) =>
         text.Replace("\\n", "\n").Split('\n').Select(StripControl).Where(line => line.Trim().Length > 0);

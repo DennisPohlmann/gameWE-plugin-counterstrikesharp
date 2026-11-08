@@ -138,6 +138,7 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
             });
 
         RegisterListener<Listeners.OnMapStart>(_ => OnMapStart());
+        RegisterListener<Listeners.OnClientAuthorized>(PlayerAuthorized);
         AddTimer(5.0f, SaveSettingsIfDirty, TimerFlags.REPEAT);
         AddTimer(SpectatorInterval, SpectatorTick, TimerFlags.REPEAT);
         // one timer for all panels: BasePlugin keeps every timer it made and kills it again on unload
@@ -333,8 +334,10 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
         {
             return;
         }
-        state.SteamId = player.SteamID;
-        state.Settings = _store?.Get(player.SteamID) ?? new PlayerSettings();
+        // Saved settings only for a Steam ID that Steam has confirmed: before
+        // that a client may claim anybody's ID (OnClientAuthorized loads them).
+        state.SteamId = player.AuthorizedSteamID?.SteamId64 ?? 0;
+        state.Settings = state.SteamId != 0 ? _store?.Get(state.SteamId) ?? new PlayerSettings() : new PlayerSettings();
         state.HideRanking = HideRankingUnknown;
         state.HideRankingWait = false;
         state.LastTrigger = 0f;
@@ -356,6 +359,22 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
             // not every client has it
         }
         ApplyLanguage(player, state);
+    }
+
+    /// <summary>Steam confirmed the ID of a player who joined before: now their saved settings.</summary>
+    private void PlayerAuthorized(int slot, SteamID steamId)
+    {
+        var player = PlayerBySlot(slot);
+        if (!IsHuman(player) || player!.Connected != PlayerConnectedState.Connected || slot >= _players.Length || _players[slot] is not { SteamId: 0 } state)
+        {
+            return;
+        }
+        state.SteamId = steamId.SteamId64;
+        if (_store?.Get(state.SteamId) is { } saved)
+        {
+            state.Settings = saved;
+            ApplyLanguage(player, state);
+        }
     }
 
     private void PlayerLeft(CCSPlayerController player)
@@ -382,7 +401,7 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
         }
         try
         {
-            PlayerLanguageManager.Instance.SetLanguage((SteamID)player.SteamID, CultureInfo.GetCultureInfo(state.Settings.Lang));
+            PlayerLanguageManager.Instance.SetLanguage((SteamID)(state.SteamId != 0 ? state.SteamId : player.SteamID), CultureInfo.GetCultureInfo(state.Settings.Lang));
         }
         catch (CultureNotFoundException)
         {
@@ -395,7 +414,7 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
 
     private void SaveSettings(CCSPlayerController player, PlayerState state)
     {
-        if (_store != null && _store.Set(player.SteamID, state.Settings))
+        if (_store != null && state.SteamId != 0 && _store.Set(state.SteamId, state.Settings))
         {
             _storeDirty = true;
         }

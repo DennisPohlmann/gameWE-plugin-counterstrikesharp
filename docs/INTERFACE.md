@@ -81,11 +81,11 @@ message (backslash, n) is a line break. Lists of userids are limited to 64.
 
 | Command | Does on CS2 |
 |---------|-------------|
-| `gamewe_psay <userid[,userid...]> [colored] "<message>"` | Private chat message. `colored`: `0` plain, `1` color tags, `2`/`3` like `1`. |
-| `gamewe_csay "<message>"` | Center message to everybody. |
+| `gamewe_psay <userid[,userid...]> [colored] "<message>"` | Private chat message. `colored`: `0` plain (color codes in the text are removed, the prefix keeps its colors), `1` color tags, `2`/`3` like `1`. |
+| `gamewe_csay "<message>"` | Center message to everybody, HTML-escaped and without colors. |
 | `gamewe_msay <time> <userid> [handler] "<text>"` | Center HTML text for `time` seconds (1 - 60), lines separated by `\n`. |
 | `gamewe_tsay <time> <userid> "<message>"` | Chat line (CS2 has no top left messages). |
-| `gamewe_hint <userid[,userid...]> "<message>"` | Center message. |
+| `gamewe_hint <userid[,userid...]> "<message>"` | Center message, HTML-escaped and without colors. |
 | `gamewe_khint <userid[,userid...]> "<message>"` | Center HTML text for 5 seconds. |
 | `gamewe_browse <userid[,userid...]> "<url>"` | The address as a chat line (only `http://` and `https://`). |
 | `gamewe_swap <userid>` | Moves a player to the other team. |

@@ -249,6 +249,14 @@ public class ChatTextTests
     }
 
     [Fact]
+    public void CenterTextAndPlainChat()
+    {
+        Assert.Equal("&lt;font color=&#39;red&#39;&gt;Evil&lt;/font&gt;", ChatText.CenterText("<font color='red'>Evil</font>"));
+        Assert.Equal("a &amp; b", ChatText.CenterText("{green}a\x04 & b "));
+        Assert.Equal("Name with colors", ChatText.NoControl("Name\x04 with\x07 colors"));
+    }
+
+    [Fact]
     public void Lines()
     {
         Assert.Equal(new[] { "a", "b" }, ChatText.Lines("a\\nb\\n "));

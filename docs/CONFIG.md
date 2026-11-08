@@ -52,4 +52,6 @@ Every player chooses the displays in the settings menu (`!gamewe_settings`)
 or with the chat commands in [USAGE.md](USAGE.md). The choices are saved in
 `addons/counterstrikesharp/data/GameWE/players.json`, keyed by SteamID64;
 only players with a setting other than the default are kept, and the file
-holds no names or addresses. Delete the file to reset everyone.
+holds no names or addresses. Delete the file to reset everyone. A player's saved
+choices are loaded and saved only once Steam has confirmed their Steam ID;
+before that the defaults apply.

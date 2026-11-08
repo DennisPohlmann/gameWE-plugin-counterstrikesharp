@@ -83,12 +83,13 @@ public sealed partial class GameWEPlugin
         string colored = Arg(info, 2);
         bool hasColorArg = colored is "0" or "1" or "2" or "3";
         string message = CommandText.Message(info.ArgString, hasColorArg ? 2 : 1);
-        message = ChatText.ApplyPrefix(message, _messagePrefix);
-        if (hasColorArg && colored != "0")
-        {
+        // Colors only when asked for: otherwise color bytes in the text (a
+        // name) go, and the configured prefix keeps its own.
+        message = hasColorArg && colored != "0"
             // 2 and 3 (team colors) need a team member as sender; CS2 shows them like 1
-            message = ChatText.ColorEntities(message);
-        }
+            ? ChatText.ColorEntities(message)
+            : ChatText.NoControl(message);
+        message = ChatText.ApplyPrefix(message, _messagePrefix);
         message = ChatText.ChatStart(ChatText.StripControl(message));
         if (message.Trim().Length == 0)
         {
@@ -102,7 +103,7 @@ public sealed partial class GameWEPlugin
 
     private void Csay(CommandInfo info)
     {
-        string message = ChatText.StripColors(CommandText.Message(info.ArgString, 0));
+        string message = ChatText.CenterText(CommandText.Message(info.ArgString, 0));
         if (message.Length == 0)
         {
             Usage(info, "<message>");
@@ -162,7 +163,7 @@ public sealed partial class GameWEPlugin
             Usage(info, "<userid[,userid...]> <message>");
             return;
         }
-        string message = ChatText.StripColors(CommandText.Message(info.ArgString, 1));
+        string message = ChatText.CenterText(CommandText.Message(info.ArgString, 1));
         if (message.Length == 0)
         {
             return;
