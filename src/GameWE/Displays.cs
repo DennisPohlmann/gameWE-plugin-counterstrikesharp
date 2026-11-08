@@ -73,12 +73,16 @@ public sealed partial class GameWEPlugin
     private void ShowCenterHtml(CCSPlayerController player, string html, int seconds)
     {
         player.PrintToCenterHtml(html, seconds);
-        _centerPanels.Show(player.Slot, html, seconds);
+        _centerPanels.Show(player.Slot, html, seconds, Server.CurrentTime);
     }
 
     private void CenterPanelTick()
     {
-        foreach (var panel in _centerPanels.Tick())
+        if (_centerPanels.Count == 0)
+        {
+            return;
+        }
+        foreach (var panel in _centerPanels.Tick(Server.CurrentTime))
         {
             var player = PlayerBySlot(panel.Slot);
             if (IsHuman(player) && player!.Connected == PlayerConnectedState.Connected)

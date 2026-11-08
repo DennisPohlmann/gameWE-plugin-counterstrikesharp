@@ -141,8 +141,8 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
         RegisterListener<Listeners.OnClientAuthorized>(PlayerAuthorized);
         AddTimer(5.0f, SaveSettingsIfDirty, TimerFlags.REPEAT);
         AddTimer(SpectatorInterval, SpectatorTick, TimerFlags.REPEAT);
-        // one timer for all panels: BasePlugin keeps every timer it made and kills it again on unload
-        AddTimer(1.0f, CenterPanelTick, TimerFlags.REPEAT);
+        // CS2 hides a center panel at once: open panels are sent again every tick
+        RegisterListener<Listeners.OnTick>(CenterPanelTick);
 
         if (hotReload)
         {

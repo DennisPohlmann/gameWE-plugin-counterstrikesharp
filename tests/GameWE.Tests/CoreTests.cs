@@ -404,33 +404,37 @@ public class CenterPanelsTests
     public void ResendsUntilTheTimeIsUp()
     {
         var panels = new CenterPanels();
-        panels.Show(3, "text", 3);
-        Assert.Equal(new CenterPanels.Resend(3, "text", 2), Assert.Single(panels.Tick()));
-        Assert.Equal(new CenterPanels.Resend(3, "text", 1), Assert.Single(panels.Tick()));
-        Assert.Empty(panels.Tick());
-        Assert.Empty(panels.Tick());
+        panels.Show(3, "text", 3, 10f);
+        Assert.Equal(new CenterPanels.Resend(3, "text", 3), Assert.Single(panels.Tick(10.016f)));
+        Assert.Equal(new CenterPanels.Resend(3, "text", 1), Assert.Single(panels.Tick(12.5f)));
+        Assert.Empty(panels.Tick(13f));
+        Assert.Equal(0, panels.Count);
+        Assert.Empty(panels.Tick(14f));
     }
 
     [Fact]
     public void ANewPanelReplacesTheOldOne()
     {
         var panels = new CenterPanels();
-        panels.Show(3, "old", 60);
-        panels.Show(3, "new", 2);
-        Assert.Equal(new CenterPanels.Resend(3, "new", 1), Assert.Single(panels.Tick()));
-        Assert.Empty(panels.Tick());
+        panels.Show(3, "old", 60, 0f);
+        panels.Show(3, "new", 2, 1f);
+        Assert.Equal(new CenterPanels.Resend(3, "new", 1), Assert.Single(panels.Tick(2.5f)));
+        Assert.Empty(panels.Tick(3f));
     }
 
     [Fact]
     public void PlayersAreSeparateAndRemovable()
     {
         var panels = new CenterPanels();
-        panels.Show(1, "a", 5);
-        panels.Show(2, "b", 5);
+        panels.Show(1, "a", 5, 0f);
+        panels.Show(2, "b", 5, 0f);
+        panels.Show(4, "c", 1, 0f);
         panels.Remove(1);
-        Assert.Equal(2, Assert.Single(panels.Tick()).Slot);
+        Assert.Equal(2, Assert.Single(panels.Tick(1f)).Slot);
+        Assert.Equal(1, panels.Count);
         panels.Clear();
-        Assert.Empty(panels.Tick());
+        Assert.Equal(0, panels.Count);
+        Assert.Empty(panels.Tick(1f));
     }
 
     [Theory]
@@ -439,8 +443,9 @@ public class CenterPanelsTests
     public void IgnoresSlotsOutOfRange(int slot)
     {
         var panels = new CenterPanels();
-        panels.Show(slot, "text", 5);
-        Assert.Empty(panels.Tick());
+        panels.Show(slot, "text", 5, 0f);
+        Assert.Equal(0, panels.Count);
+        Assert.Empty(panels.Tick(0f));
     }
 }
 
