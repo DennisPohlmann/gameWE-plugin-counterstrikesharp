@@ -26,8 +26,8 @@ log token of this server (gameWE admin area).
 - A Counter-Strike 2 dedicated server.
 - [Metamod:Source 2.0](https://www.sourcemm.net/downloads.php?branch=dev) and
   [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
-  **v378 or newer** (the release is built against `CounterStrikeSharp.API`
-  1.0.378, .NET 10), in the Linux or Windows build that matches the
+  **v379 or newer** (the release is built against `CounterStrikeSharp.API`
+  1.0.379, .NET 10), in the Linux or Windows build that matches the
   server. Use the "with runtime" build of CounterStrikeSharp unless the
   .NET runtime is installed otherwise.
 - A gameWE collector with CS2 support that has the server in
@@ -181,7 +181,7 @@ so there is nothing to remove.
 
 | Problem | Check |
 |---------|-------|
-| `css_plugins list` does not show gameWE | CounterStrikeSharp version (v378+), the server console at start for a load error |
+| `css_plugins list` does not show gameWE | CounterStrikeSharp version (v379+), the server console at start for a load error |
 | No `weaponstats` in the collector | the collector has set its address (`logaddress_list_http` in the server console, `http://<collector>:41338/<game port>/<log token>`), or `LogUrl` is set; 404 in the collector log: wrong path or token, 403: IP and port are not a CS2 server in the admin area; when the collector cannot be reached, the server console shows `gameWE: the collector cannot be reached (...), log lines dropped` (or `answered HTTP <code>`) at most once per minute |
 | `/rank` gets no answer | the collector's RCON access (`-usercon`, password), the collector log |
 | The panel (center text) does not show | another plugin uses the center HTML at the same time; try `MenuType: "chat"` for the menus |

@@ -37,7 +37,7 @@ Current version: see `VERSION` and [CHANGELOG.md](CHANGELOG.md).
 - a Counter-Strike 2 dedicated server on Linux or Windows with
   [Metamod:Source 2.0](https://www.sourcemm.net/downloads.php?branch=dev) and
   [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
-  **v378 or newer** (the "with runtime" build, or the .NET runtime it needs)
+  **v379 or newer** (the "with runtime" build, or the .NET runtime it needs)
 - a gameWE collector with CS2 support, with the server registered in its
   `hlstats_Servers` (address, port and RCON password)
 
