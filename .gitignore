@@ -15,3 +15,4 @@ TestResults/
 *.user
 *.swp
 .DS_Store
+/tools/release/node_modules/
