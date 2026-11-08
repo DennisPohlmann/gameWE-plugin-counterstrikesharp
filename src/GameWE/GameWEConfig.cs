@@ -17,7 +17,7 @@ public sealed class GameWEConfig : BasePluginConfig
     /// <summary>
     /// Where the plugin posts its log lines. Empty (default): the address the
     /// server got with logaddress_add_http (the collector sets it over RCON).
-    /// Keep it secret: the path holds the collector's token.
+    /// Keep it secret: the path holds the server's log token.
     /// </summary>
     [JsonPropertyName("LogUrl")] public string LogUrl { get; set; } = string.Empty;
 

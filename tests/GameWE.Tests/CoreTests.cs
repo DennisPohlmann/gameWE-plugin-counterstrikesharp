@@ -511,7 +511,7 @@ public class LogSenderTests
         Assert.Equal(LogSender.MaxQueuedLines, sender.QueuedLines);
         await sender.FlushAsync();
         var warning = Assert.Single(warnings);
-        // the address holds the collector's token: never in a message
+        // the address holds the server's log token: never in a message
         Assert.DoesNotContain("secret-token", warning);
     }
 }

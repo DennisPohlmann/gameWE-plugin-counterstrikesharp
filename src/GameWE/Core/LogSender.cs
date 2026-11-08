@@ -125,7 +125,7 @@ public sealed class LogSender : IDisposable
             using var response = await _http.PostAsync(url, content).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
-                // the address is not written: its path holds the collector's token
+                // the address is not written: its path holds the server's log token
                 Warn($"the collector answered HTTP {(int)response.StatusCode}, log lines dropped");
             }
             return true;

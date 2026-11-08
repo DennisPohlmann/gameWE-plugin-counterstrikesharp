@@ -8,7 +8,7 @@ access of its own.
 
 Placeholders below: `203.0.113.5` is the collector host, `198.51.100.7:27015`
 the game server, `change-me` your RCON password, `YOUR_TOKEN` the
-collector's token for this server.
+log token of this server (gameWE admin area).
 
 1. [Requirements](#requirements)
 2. [Install](#install)
@@ -94,27 +94,28 @@ rcon_password "change-me"    // the same as in the collector's hlstats_Servers
 ```
 
 With the RCON password the collector sets the log address itself, with
-`logaddress_add_http "http://203.0.113.5:41338/<token>/27015"`, and the
+`logaddress_add_http "http://203.0.113.5:41338/27015/<log token>"`, and the
 plugin takes the address from that command. To set it by hand (or when the
 collector cannot reach RCON), add to `server.cfg`:
 
 ```
 log on
 logaddress_delall_http
-logaddress_add_http "http://203.0.113.5:41338/<token>/27015"   // collector IP, HTTP port, token, game port
+logaddress_add_http "http://203.0.113.5:41338/27015/<log token>"   // collector IP, HTTP port, game port, log token of this server
 ```
 
-- `<token>` is `listen.http.token` from the collector's `config.yaml`: one
-  token for the collector, the same on every CS2 server. It is not
-  `sv_logsecret` and not set per server (without a token in the collector's
-  config the URL is `http://203.0.113.5:41338/27015`).
-- The last segment is the server's game port exactly as in the gameWE admin
-  area: the collector finds the server by the sender's IP and this port.
-  A new server is picked up within about a minute.
+- The segment after the HTTP port is the server's game port exactly as in
+  the gameWE admin area: the collector finds the server by the sender's IP
+  and this port. A new server is picked up within about a minute.
+- `<log token>` is the log token of this server, set in the gameWE admin
+  area (Servers). It is not `sv_logsecret` and differs per server. Without
+  a log token the URL ends with the game port:
+  `http://203.0.113.5:41338/27015`. Collectors before 1.9.1 used one
+  `listen.http.token` in front of the game port; that form is refused now.
 - `logaddress_delall_http` removes old addresses, so the server posts to
   one URL only. With `ProtectLogAddress` on, the plugin adds the address it
   saw last back right after `logaddress_delall_http`; to change the URL
-  (another port or token), restart the server after editing `server.cfg`.
+  (another port or log token), restart the server after editing `server.cfg`.
   CS2 has no log secret; the collector ignores it.
 
 If the plugin should post somewhere else than the server's own log
@@ -123,7 +124,7 @@ why posts are refused (`rejected HTTP log post`, collector 1.5.5 and newer):
 404 is a wrong path or token, 403 an IP and port that are not a CS2 server
 in the admin area.
 
-The address contains the collector's token. Keep `server.cfg` and
+The address contains the server's log token. Keep `server.cfg` and
 `GameWE.json` private and never post the address in chat, forums or
 screenshots. The plugin never writes it to the log or the console.
 
@@ -181,6 +182,6 @@ so there is nothing to remove.
 | Problem | Check |
 |---------|-------|
 | `css_plugins list` does not show gameWE | CounterStrikeSharp version (v378+), the server console at start for a load error |
-| No `weaponstats` in the collector | the collector has set its address (`logaddress_list_http` in the server console, `http://<collector>:41338/<token>/<game port>`), or `LogUrl` is set; 404 in the collector log: wrong path or token, 403: IP and port are not a CS2 server in the admin area; when the collector cannot be reached, the server console shows `gameWE: the collector cannot be reached (...), log lines dropped` (or `answered HTTP <code>`) at most once per minute |
+| No `weaponstats` in the collector | the collector has set its address (`logaddress_list_http` in the server console, `http://<collector>:41338/<game port>/<log token>`), or `LogUrl` is set; 404 in the collector log: wrong path or token, 403: IP and port are not a CS2 server in the admin area; when the collector cannot be reached, the server console shows `gameWE: the collector cannot be reached (...), log lines dropped` (or `answered HTTP <code>`) at most once per minute |
 | `/rank` gets no answer | the collector's RCON access (`-usercon`, password), the collector log |
 | The panel (center text) does not show | another plugin uses the center HTML at the same time; try `MenuType: "chat"` for the menus |

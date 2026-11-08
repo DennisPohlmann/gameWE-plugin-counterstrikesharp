@@ -13,13 +13,13 @@ lines itself:
 
 - **Address:** the URL of the last `logaddress_add_http` command from the
   server console or RCON, normally
-  `http://203.0.113.5:41338/YOUR_TOKEN/27015` (collector, token, game
-  port), or `LogUrl` from the config. `logaddress_delall_http` and
+  `http://203.0.113.5:41338/27015/YOUR_TOKEN` (collector, game port,
+  log token of the server), or `LogUrl` from the config. `logaddress_delall_http` and
   `logaddress_del_http` with that URL stop the sending (unless
   `ProtectLogAddress` adds it again).
 - **Request:** `POST`, `Content-Type: text/plain; charset=utf-8`, one log
   line per line, each ending with `\n`, at most about 32 KiB per request.
-  The token is only in the path; the collector identifies the server by
+  The log token is only in the path; the collector identifies the server by
   the source address and the port in the path. No other headers are used.
 - **Line format:** like CS2's HTTP log:
   `MM/DD/YYYY - HH:MM:SS.mmm - <line>`, server local time.
@@ -29,7 +29,7 @@ lines itself:
   or answers with an error, the lines are dropped and the server console
   shows a warning at most once a minute, without the address.
 
-The address holds the collector's token: the plugin never writes it to the
+The address holds the server's log token: the plugin never writes it to the
 log, the console or the chat.
 
 ## Log lines

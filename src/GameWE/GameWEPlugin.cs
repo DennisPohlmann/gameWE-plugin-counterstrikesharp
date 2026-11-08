@@ -233,7 +233,7 @@ public sealed partial class GameWEPlugin : BasePlugin, IPluginConfig<GameWEConfi
     /// <summary>
     /// The collector sets the server's log address with logaddress_add_http
     /// over RCON; the plugin posts to the same address. The address is never
-    /// written to the log or the chat: its path holds the collector's token.
+    /// written to the log or the chat: its path holds the server's log token.
     /// </summary>
     private void RegisterLogAddressWatch()
     {

@@ -10,7 +10,7 @@ The names follow the ConVars of the gameWE SourceMod plugin
 
 | Setting | Default | SourceMod ConVar | Meaning |
 |---------|---------|------------------|---------|
-| `LogUrl` | `""` | - | Where the plugin posts its log lines. Empty: the address the server got with `logaddress_add_http` (the collector sets it over RCON). Only `http://` or `https://`, no spaces or quotes. **Secret**: the path holds the collector's token. |
+| `LogUrl` | `""` | - | Where the plugin posts its log lines. Empty: the address the server got with `logaddress_add_http` (the collector sets it over RCON). Only `http://` or `https://`, no spaces or quotes. **Secret**: the path holds the server's log token. |
 | `ProtectLogAddress` | `false` | `gamewe_protect_address` | Adds the log address again when someone removes it (`logaddress_delall_http`, `logaddress_del_http`) and turns logging on again after `log off`. |
 | `MessagePrefix` | `""` | `gamewe_message_prefix` | Replaces the `[gameWE]` tag at the start of every gameWE chat line, also of the collector's answers. Color tags allowed, e.g. `{green}[Stats]`. At most 63 characters. |
 | `BlockCommandsValues` | `""` | `gamewe_block_commands_values` | More chat commands to hide with `/`, separated by spaces; `clear` hides none, not even the defaults ([USAGE.md](USAGE.md#chat-commands)). |

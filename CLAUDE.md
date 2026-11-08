@@ -98,7 +98,7 @@ the audit summary of `security-privacy-audit`.
 - Collector commands (`gamewe_*`, `gameme_*`) run only when the caller is
   the server (`player == null`: server console / RCON). A player who types
   one in the console gets nothing.
-- **The log address is a secret:** its path holds the collector's token.
+- **The log address is a secret:** its path holds the server's log token.
   It is never written to the server log, the console, the chat, an
   exception message or a log line, and never shown in docs with a real
   value.

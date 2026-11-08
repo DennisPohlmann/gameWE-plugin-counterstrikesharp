@@ -28,7 +28,7 @@ compatible with gameME. It has no database access of its own.
 **How the log lines reach the collector:** CS2 sends its own log over HTTP
 (`logaddress_add_http`), and CounterStrikeSharp cannot add lines to it. So
 the plugin posts its lines over HTTP to the same address the collector set.
-The address contains the collector's token: treat it like a password.
+The address contains the server's log token: treat it like a password.
 
 Current version: see `VERSION` and [CHANGELOG.md](CHANGELOG.md).
 
@@ -60,9 +60,10 @@ Current version: see `VERSION` and [CHANGELOG.md](CHANGELOG.md).
 
    The collector adds its HTTP log address over RCON; the plugin uses the
    same address. By hand: `logaddress_delall_http` and
-   `logaddress_add_http "http://<collector IP>:41338/<token>/<game port>"`
-   (`<token>` is the collector's `listen.http.token`, the game port as in
-   the gameWE admin area), see [docs/INSTALLATION.md](docs/INSTALLATION.md#game-server-setup).
+   `logaddress_add_http "http://<collector IP>:41338/<game port>/<log token>"`
+   (the game port as in the gameWE admin area, `<log token>` is this
+   server's log token from the admin area; without one the URL ends with
+   the game port), see [docs/INSTALLATION.md](docs/INSTALLATION.md#game-server-setup).
 
 3. Restart the server or change the map; `css_plugins list` shows `gameWE`
    with its version, and `gamewe_plugin_version` in the server console
