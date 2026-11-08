@@ -18,14 +18,22 @@ run**, without asking first. Never tag by hand, never edit `VERSION` or
 `CHANGELOG.md` by hand, never start the release run and do not push to `main`
 yourself: report the gate result and the version semantic-release will make
 (`feat` → minor, `fix` → patch, `!`/`BREAKING CHANGE` → major), then ask
-Dennis for the go.
+Dennis for the go. The
+release run starts only after Dennis writes exactly `RELEASE GO`; a plain
+"go", a relayed go or a go for something else is not enough. Cancelling a
+release run is no clean stop: the release commit, the tag and a draft may
+already exist, so check for them afterwards.
 
 ## Steps
 
-1. **Clean tree and version:** `git status` is clean; `VERSION` and the
+1. **Clean tree, version and signatures:** `git status` is clean; `VERSION` and the
    top `CHANGELOG.md` entry agree with the latest tag
    (`git describe --tags --abbrev=0`; before the first release: `VERSION`
    is `0.0.0` and `CHANGELOG.md` has only the title).
+   Every commit since that tag except the bot's `chore(release)` commits
+   is signed with Dennis' SSH key: `git log --format='%h %G? %GK %s'
+   $(git describe --tags --abbrev=0)..origin/main` shows `G` and
+   `SHA256:LsKcmv...`; any other signer or none is a no-go.
 2. **Build and tests:** `make build` and `make test`; no warnings, all
    tests green. `make package` contains only `GameWE.dll`, `lang/`,
    README, CHANGELOG and LICENSE.
@@ -61,4 +69,4 @@ Dennis for the go.
    release, the release commit messages and the `CHANGELOG.md` entry that
    semantic-release will write. Any `BLOCKED` item is a no-go.
 12. **Report:** go/no-go, the `security-privacy-audit` summary, findings with file:line and fix, the version semantic-release will make, then ask Dennis
-    for the go to start the release run.
+    for `RELEASE GO` to start the release run.
