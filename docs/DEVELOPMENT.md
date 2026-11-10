@@ -73,6 +73,11 @@ tag and decide the next version:
 | `feat!: ...`, `fix!: ...` or a `BREAKING CHANGE:` footer | major (`X.Y.Z` → `(X+1).0.0`) |
 | `docs`, `chore`, `ci`, `build`, `test`, `refactor`, `style` | no release |
 
+A run with `release` ticked that makes no release (no such commit since the
+last tag, or `main` moved on while the run was checking) fails at the step
+`stop if nothing was released`; start it again once there is something to
+release.
+
 For a release it writes `VERSION` and `CHANGELOG.md`, commits them as
 `chore(release): v<version> [skip ci]`, tags `v<version>` and creates the GitHub
 release as a draft. The workflow then builds that tag, uploads the packages
