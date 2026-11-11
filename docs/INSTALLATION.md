@@ -94,28 +94,30 @@ rcon_password "change-me"    // the same as in the collector's hlstats_Servers
 ```
 
 With the RCON password the collector sets the log address itself, with
-`logaddress_add_http "http://203.0.113.5:41338/27015/<log token>"`, and the
+`logaddress_add_http "http://203.0.113.5:41338/<log token>"`, and the
 plugin takes the address from that command. To set it by hand (or when the
 collector cannot reach RCON), add to `server.cfg`:
 
 ```
 log on
 logaddress_delall_http
-logaddress_add_http "http://203.0.113.5:41338/27015/<log token>"   // collector IP, HTTP port, game port, log token of this server
+logaddress_add_http "http://203.0.113.5:41338/<log token>"   // collector IP, HTTP port, log token of this server
 ```
 
-- The segment after the HTTP port is the server's game port exactly as in
-  the gameWE admin area: the collector finds the server by the sender's IP
-  and this port. A new server is picked up within about a minute.
-- `<log token>` is the log token of this server, set in the gameWE admin
-  area (Servers). It is not `sv_logsecret` and differs per server. Without
-  a log token the URL ends with the game port:
-  `http://203.0.113.5:41338/27015`. Collectors before 1.9.1 used one
-  `listen.http.token` in front of the game port; that form is refused now.
+- `<log token>` is the log token of this server, set (or generated) in the
+  gameWE admin area (Servers). It is not `sv_logsecret`, each server has its
+  own, and it is needed: the collector finds the server by this token, and
+  the post must come from the server's IP in the admin area. A new server or
+  token is picked up within about a minute.
+- Collector 1.10 and older took `/<game port>` or `/<game port>/<log token>`
+  (1.9.0 and older one `listen.http.token` in front of the game port).
+  Collector 1.11 refuses these URLs and logs once per server that the old
+  URL is still in use: put the new one into `server.cfg` as above.
 - `logaddress_delall_http` removes old addresses, so the server posts to
   one URL only. With `ProtectLogAddress` on, the plugin adds the address it
   saw last back right after `logaddress_delall_http`; to change the URL
-  (another port or log token), restart the server after editing `server.cfg`.
+  (a new log token, or the old URL with the game port), restart the server
+  after editing `server.cfg`.
   CS2 has no log secret; the collector ignores it.
 
 If the plugin should post somewhere else than the server's own log
@@ -182,6 +184,6 @@ so there is nothing to remove.
 | Problem | Check |
 |---------|-------|
 | `css_plugins list` does not show gameWE | CounterStrikeSharp version (v379+), the server console at start for a load error |
-| No `weaponstats` in the collector | the collector has set its address (`logaddress_list_http` in the server console, `http://<collector>:41338/<game port>/<log token>`), or `LogUrl` is set; 404 in the collector log: wrong path or token, 403: IP and port are not a CS2 server in the admin area; when the collector cannot be reached, the server console shows `gameWE: the collector cannot be reached (...), log lines dropped` (or `answered HTTP <code>`) at most once per minute |
+| No `weaponstats` in the collector | the collector has set its address (`logaddress_list_http` in the server console, `http://<collector>:41338/<log token>`), or `LogUrl` is set; 404 in the collector log: wrong path or token, the old URL with the game port, or no CS2 server of the admin area with this token at the server's IP; when the collector cannot be reached, the server console shows `gameWE: the collector cannot be reached (...), log lines dropped` (or `answered HTTP <code>`) at most once per minute |
 | `/rank` gets no answer | the collector's RCON access (`-usercon`, password), the collector log |
 | The panel (center text) does not show | another plugin uses the center HTML at the same time; try `MenuType: "chat"` for the menus |

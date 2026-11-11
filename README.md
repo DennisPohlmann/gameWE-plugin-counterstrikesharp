@@ -60,10 +60,9 @@ Current version: see `VERSION` and [CHANGELOG.md](CHANGELOG.md).
 
    The collector adds its HTTP log address over RCON; the plugin uses the
    same address. By hand: `logaddress_delall_http` and
-   `logaddress_add_http "http://<collector IP>:41338/<game port>/<log token>"`
-   (the game port as in the gameWE admin area, `<log token>` is this
-   server's log token from the admin area; without one the URL ends with
-   the game port), see [docs/INSTALLATION.md](docs/INSTALLATION.md#game-server-setup).
+   `logaddress_add_http "http://<collector IP>:41338/<log token>"`
+   (`<log token>` is this server's log token from the admin area, needed
+   since collector 1.11: the token picks the server), see [docs/INSTALLATION.md](docs/INSTALLATION.md#game-server-setup).
 
 3. Restart the server or change the map; `css_plugins list` shows `gameWE`
    with its version, and `gamewe_plugin_version` in the server console
